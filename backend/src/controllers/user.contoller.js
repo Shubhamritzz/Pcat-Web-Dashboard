@@ -33,32 +33,32 @@ const registerUser = asynchandler(async (req, res) => {
 
     // take cover imag and avtar upload on cloudinary 
     // here we use multer as a middleware to upload a file middleware here add more filds in req like here we have req.files
-    const avatarlocalpath = req.files?.avatar[0]?.path // this is not in cloud this is now in our local we say to multer to save the file in our public avatar is name of our file to take it written in upload files in in user.router
+    // const avatarlocalpath = req.files?.avatar[0]?.path // this is not in cloud this is now in our local we say to multer to save the file in our public avatar is name of our file to take it written in upload files in in user.router
     // console.log(avatarlocalpath,'path');
 
 
     // here cover image is optional that why this code
-    let coverImagelocalpath
-    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) { //both working 1 for refrence
-        coverImagelocalpath = req.files?.coverImage[0]?.path
-    }
+    // let coverImagelocalpath
+    // if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) { //both working 1 for refrence
+        // coverImagelocalpath = req.files?.coverImage[0]?.path
+    // }
 
-    const coverImagelocalpath2 = req.files?.coverImage?.[0]?.path ?? undefined // both working 2
+    // const coverImagelocalpath2 = req.files?.coverImage?.[0]?.path ?? undefined // both working 2
 
     // normal check if not then throw error
-    if (!avatarlocalpath) {
-        throw new ApiError(400, 'avatar img required')
-    }
+    // if (!avatarlocalpath) {
+    //     throw new ApiError(400, 'avatar img required')
+    // }
     // console.log(avatarImg,coverImage);
 
     // upload on cloudinary
-    const avatarImg = await uploadImagetoCloudinary(avatarlocalpath)
-    const coverImage = await uploadImagetoCloudinary(coverImagelocalpath)
+    // const avatarImg = await uploadImagetoCloudinary(avatarlocalpath)
+    // const coverImage = await uploadImagetoCloudinary(coverImagelocalpath)
 
     // await uploadImagetoCloudinary(coverImagelocalpath)
     // console.log('avatar img',avatarImg);
 
-    if (!avatarImg) throw new ApiError(400, 'avatarImg required')
+    // if (!avatarImg) throw new ApiError(400, 'avatarImg required')
 
     // created object and send to DB
     const user = await User.create({
@@ -66,8 +66,8 @@ const registerUser = asynchandler(async (req, res) => {
         userName: userName.toLowerCase(),
         email,
         password,
-        avatar: avatarImg.url,
-        coverImage: coverImage?.url || '',
+        // avatar: avatarImg.url,
+        // coverImage: coverImage?.url || '',
     })
 
     // check user is created in db and checking data from DB then we take response in that we dont want to send this pass and token we can directly undefine in user but from DB is better in select means all select in parameter we have to which we dont want
@@ -120,17 +120,16 @@ const loginUser = asynchandler(async (req, res) => {
     //2.checking email and username for validation
     //3.if validate find the user 
     //4.user got then check password
-    //5. password match then send refresh & acces token 
-    //6. give in cookies
+    //5. password match 
 
 
-    const { userName, email, password } = req.body
+    const { email, password } = req.body
 
-    if (!(userName || email)) {
-        throw new ApiError(400, 'userName & email is required')
+    if (! email) {
+        throw new ApiError(400, ' email is required')
     }
 
-    const user = await User.findOne({ $or: [{ userName }, { email }] })
+    const user = await User.findOne({ email })
 
     if (!user) throw new ApiError(404, 'user not exist')
 
@@ -139,28 +138,18 @@ const loginUser = asynchandler(async (req, res) => {
 
     if (!userValidate) throw new ApiError(402, " password is wrong")
 
-    // by giving id from the db we got access & refresh token bt destructuring
-    const { refreshToken, accessToken } = await generateAccessRefressToken(user._id)
 
     // now we have to updaate our user because here dont have referesh token because generateAccessRefressTokem we callafter a letter we can call user but it make bd request so we update it and we dont want to send password and refresh token
     const logedInUser = await User.findById(user._id).select('-password -refreshToken')
 
-    // now  giving in cookie we have download the cookie pareser 
-    // option for only server can edit
-    const option = {
-        httpOnly: true,
-        secure: true
-    }
 
     return res
         .status(200)
-        .cookie("accessToken", accessToken, option)
-        .cookie("refreshToken", refreshToken, option)
         .json(
             new ApiResponse(
                 200,
                 {
-                    user: logedInUser, accessToken, refreshToken // we here send this response to refAcss token because of difreent work in frontend
+                    user: logedInUser
                 },
                 'user Logedin seccessfull'
             )

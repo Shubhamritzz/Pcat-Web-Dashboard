@@ -7,17 +7,6 @@ import { verifyJWT } from "../middleweres/auth.middleware.js";
 const router = Router()
 
 router.route("/register").post( 
-    // this is middleware for file upload with multer before registerUser controller
-    upload.fields([
-        {
-            name: "avatar",
-            maxCount: 1
-        },
-        {
-            name: "coverImage",
-            maxCount: 1
-        }
-    ]),
     registerUser)
 
 router.route("/login").post(loginUser)

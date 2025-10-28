@@ -5,13 +5,13 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "localhost:4000",
+  "host": "localhost:4000/api/v1",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/register": {
+    "/users/register": {
       "post": {
         "description": "",
         "parameters": [
@@ -44,7 +44,7 @@
         }
       }
     },
-    "/login": {
+    "/users/login": {
       "post": {
         "description": "",
         "parameters": [

@@ -23,7 +23,7 @@ function Login() {
     useEffect(() => {
         const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
         if (isLoggedIn) {
-            navigate("/dashboard");
+            navigate("/navbar");
         }
     }, [navigate]);
 
@@ -39,7 +39,7 @@ function Login() {
             seterror('')
             if (res.data.success) {
                 localStorage.setItem("isLoggedIn", "true");
-                navigate('/dashboard')
+                navigate('/navbar')
             } else {
                 seterror(res.data.message || "Login failed");
             }

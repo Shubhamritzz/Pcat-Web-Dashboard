@@ -5,13 +5,13 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "localhost:4000/api/v1",
+  "host": "localhost:4000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/users/register": {
+    "/register": {
       "post": {
         "description": "",
         "parameters": [
@@ -44,7 +44,7 @@
         }
       }
     },
-    "/users/login": {
+    "/login": {
       "post": {
         "description": "",
         "parameters": [
@@ -54,9 +54,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userName": {
-                  "example": "any"
-                },
                 "email": {
                   "example": "any"
                 },
@@ -74,61 +71,22 @@
         }
       }
     },
-    "/logout": {
-      "post": {
+    "/api/v1/navbar/updatenavbar": {
+      "put": {
         "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
         "responses": {
-          "400": {
-            "description": "Bad Request"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/new-tokens": {
-      "post": {
+    "/api/v1/navbar/getnavbar": {
+      "get": {
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/changePassword": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "oldPassword": {
-                  "example": "any"
-                },
-                "newPassword": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }

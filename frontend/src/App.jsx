@@ -4,7 +4,9 @@ import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainLayou from "./components/MainLayou";
-import Das from "./Pages/das";
+// import Das from "./Pages/das";
+import Navbar from "./Pages/Navbar";
+import { Das } from "./Pages/Das";
 
 
 
@@ -21,9 +23,10 @@ function App() {
       </ProtectedRoute>
     }
   >
-    <Route index element={<Navigate to="/dashboard" replace />} />
+    <Route index element={<Navigate to="/navbar" replace />} />
+    <Route path="/navbar" element={<Navbar />} />
+    <Route path="/das" element={<Das />} />
     <Route path="/dashboard" element={<Dashboard />} />
-    <Route path="das" element={<Das />} />
     
   </Route>
     </Routes>

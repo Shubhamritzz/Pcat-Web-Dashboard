@@ -11,9 +11,7 @@ router.route("/register").post(
 
 router.route("/login").post(loginUser)
 
-// here just like we are doing jate jate user ki info lekejana login karne ke liye waise hi hum verifyJWT middleware use karenge for authentication
-router.route("/logout").post(verifyJWT,logoutUser)
-router.route("/new-tokens").post(generatenewToken)
-router.route("/changePassword").post(verifyJWT,changePassword)
+
+
 
 export default router

@@ -13,7 +13,7 @@ const uploadImagetoCloudinary = async (filePath) => {
         const response = await cloudinary.uploader.upload(filePath, {
             resource_type: 'auto',
         })
-        fs.unlinkSync(filePath) // remove file from local uploads folder for our server cleanup and fs is filesystem module it comes with nodejs by default unlinkSync is used to delete file synchronously means hona hi chiye ye
+        // fs.unlinkSync(filePath) // remove file from local uploads folder for our server cleanup and fs is filesystem module it comes with nodejs by default unlinkSync is used to delete file synchronously means hona hi chiye ye
         //  console.log('after file uploded successfully',response.url);
         return response
 

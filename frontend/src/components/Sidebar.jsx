@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  LogOut,
+  ChevronDown
+} from 'lucide-react';
+
 
 const Sidebar = () => {
   const navItems = [
-    { name: 'Products',to:'/das' },
-    { name: 'Vendors',to:'/dashboard' },
-    { name: 'Leads' , to:'/'},
-    
+    { name: 'Navbar', icon: LayoutDashboard, to: '/navbar' },
+    { name: 'Vendors', icon: Users, to: '/das' },
+    { name: 'Leads', icon: FileText, to: '/dashboard' },
   ];
+
+ const [activeItem, setActiveItem] = useState('Navbar');
 
   const navigate = useNavigate();
 
@@ -16,49 +25,60 @@ const Sidebar = () => {
     navigate("/login");
   };
 
+  const handleNavItemClick = (name) => {
+    setActiveItem(name.name)
+    // In a real app with react-router-dom, you would use:
+    navigate(name.to);
+  };
+
   return (
-    <div className="w-64 bg-[#082c4f] h-screen flex flex-col justify-between shadow-lg fixed">
-      {/* Top Section: Profile */}
-      <div className="p-6">
-        <div className="flex items-center space-x-3 mb-8">
-          <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+    <div className="w-64 bg-slate-900 text-gray-200 h-screen flex flex-col justify-between shadow-lg fixed font-sans">
+
+      {/* Top Section: Logo & Navigation */}
+      <div>
+        {/* Header / Profile Section */}
+        <div className="p-5 h-20 flex items-center space-x-3 border-b border-slate-700">
+          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold shrink-0">
             A
           </div>
           <div>
-            <p className="text-white text-lg font-semibold">Admin</p>
+            <p className="text-white text-base font-semibold">Admin Panel</p>
+            <p className="text-xs text-gray-400">Welcome, Admin</p>
           </div>
         </div>
 
         {/* Navigation Items */}
-        <nav className="space-y-3">
+        <nav className="space-y-2 p-4 mt-4">
           {navItems.map((item) => (
-            <NavLink
+            <button
               key={item.name}
-              to={item?.to}
-              className={({ isActive }) =>
-                `flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${
-                  isActive
-                    ? "bg-[#8E44AD] text-white shadow-md"
-                    : "text-[#BDC3C7] hover:bg-gray-700 hover:text-white"
-                }`
-              }
+              onClick={() => handleNavItemClick(item)}
+              className={`flex items-center space-x-3 p-3 cursor-pointer rounded-lg transition-all duration-200 w-full text-left ${
+                activeItem === item.name
+                  ? "bg-blue-600 text-white shadow-md font-medium" // Active state
+                  : "text-gray-400 hover:bg-slate-800 hover:text-white" // Inactive state
+              }`}
             >
-              <span className="text-md font-medium">{item.name}</span>
-            </NavLink>
+              <item.icon className="w-5 h-5 shrink-0" />
+              <span className="text-sm">{item.name}</span>
+            </button>
           ))}
         </nav>
       </div>
 
-      <div className=' w-full flex items-center justify-center'>
+      {/* Bottom Section: Logout */}
+      <div className="p-4 border-t border-slate-700">
         <button
           onClick={handleLogout}
-          className="text-md w-[70%] text-center font-medium py-3 rounded-lg text-white bg-red-600 hover:bg-red-700 transition-all duration-200 mb-6 shadow-md cursor-pointer"
+          className="flex items-center cursor-pointer space-x-3 p-3 rounded-lg transition-all duration-200 w-full text-left text-red-400 hover:bg-red-900/50 hover:text-red-300"
         >
-          Logout
+          <LogOut className="w-5 h-5 shrink-0" />
+          <span className="text-sm font-medium">Logout</span>
         </button>
       </div>
     </div>
   );
 };
+
 
 export default Sidebar;

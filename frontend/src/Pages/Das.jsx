@@ -1,9 +1,7 @@
 import React from 'react'
 
-function Das() {
+export default function Das() {
   return (
-    <div>das</div>
+    <div>Das</div>
   )
 }
-
-export default Das
